@@ -12,7 +12,7 @@ No installation required.
 
 ## Usage
 
-Simply run the executable file. Note that this was compiled for a machine running Windows.
+Simply run ```python3 main.py ``` and follow on screen instructions
 
 ## Contributing
 
