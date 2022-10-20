@@ -2,3 +2,5 @@
 /buid/
 /dist/
 /Hex.spec
+/player/__pycache__/
+/game/__pycache__/
