@@ -6,16 +6,17 @@ from rich.logging import RichHandler
 FORMAT = "%(message)s"
 logging.basicConfig(level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()])
 
-from classes.tournament import Tournament
-from classes.human import HumanPlayer
+from game.tournament import Tournament
+from player.allplayers import *
 
 
 def main(args):
     arena = Tournament(args)
-    if GAME_COUNT != 1:
-        arena.championship()
-    if GAME_COUNT == 1:
+    if N_GAMES== 1:
         arena.single_game(blue_starts=True)
+    else:
+        arena.championship()
+        
 
 if __name__ == "__main__":
     PLAYER_DICTIONARY = {
