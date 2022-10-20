@@ -23,16 +23,19 @@ if __name__ == "__main__":
         1: HumanPlayer(),
         2: RandomPlayer(),
     }
+    PLAYERS_STR = """What is [bold blue]Player {}[/bold blue]?
+     1. Human
+     2. Random Player"""
 
     BOARD_SIZE = 7
     ITERMAX = 500
     GAME_COUNT, N_GAMES = 0, 200
     GUI = False
 
-    print("What is [bold blue]Player 1[/bold blue]?\n 1. Human\n 2. Random Player", end="\t")
+    print(PLAYERS_STR.format(1), end="\t")
     P1 = PLAYER_DICTIONARY.get(int(input())) #TODO : Add erroring or something
 
-    print("What is [bold blue]Player 2[/bold blue]?\n 1. Human\n 2. Random Player", end="\t")
+    print(PLAYERS_STR.format(2), end="\t")
     P2 = PLAYER_DICTIONARY.get(int(input())) #TODO : Add erroring or something
 
     

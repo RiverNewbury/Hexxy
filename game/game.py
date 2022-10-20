@@ -1,6 +1,6 @@
 description = """{-
-Module      : 
-Description : 
+Module      : Game
+Description : Combines players, UI and board into a singal object responsible for playing 1 game
 Maintainer  : River
 -}"""
 

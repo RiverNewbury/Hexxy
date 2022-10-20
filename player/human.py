@@ -1,6 +1,6 @@
 description = """{-
-Module      : 
-Description : 
+Module      : Human
+Description : Allows a human to play Hex
 Maintainer  : River
 -}"""
 
