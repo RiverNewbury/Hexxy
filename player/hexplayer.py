@@ -13,6 +13,11 @@ from game.board import Board
 #-------- Classes ---------------------------------------------------------------
 
 class HexPlayer(ABC):
+	@property
+	@abstractmethod
+	def type(self):
+		pass
+
 	@abstractmethod
 	def getMove(self, board: Board) -> tuple[int, int]:
 		pass;

@@ -20,22 +20,22 @@ from player.hexplayer import HexPlayer
 #-------- Classes ---------------------------------------------------------------
 
 class Game:
-    def __init__(self, boardSize: int, bluePlayer : HexPlayer, redPlayer : HexPlayer, blueToStart: bool = True):
+    def __init__(self, boardSize: int, bluePlayer : HexPlayer, redPlayer : HexPlayer, showGui = True, blueToStart: bool = True):
 
         # Instantiate classes
-        self.ui = UI(boardSize)
+        self.ui = UI(boardSize) if showGui else None
         self.board = Board(boardSize)
 
         # Initialize players
         self.bluePlayer = bluePlayer
         self.redPlayer  = redPlayer
         
-        if bluePlayer.type == "human" : bluePlayer.gui = self.ui
-        if redPlayer.type == "human"  : redPlayer.gui  = self.ui 
+        if bluePlayer.type == "human" : bluePlayer.gui = self.ui; assert(showGui)
+        if redPlayer.type == "human"  : redPlayer.gui  = self.ui; assert(showGui)
 
         # Initialize variables
         self.node = None
-        
+        self.showGui = showGui
         self.winner = 0
         self.turn = {True: self.board.BLUE_PLAYER, False: self.board.RED_PLAYER}
 
@@ -55,56 +55,13 @@ class Game:
 
         console.print(table)
 
-    def handle_events(self):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                pygame.quit()
-                sys.exit()
-
-            if event.type == pygame.MOUSEBUTTONUP or self.modes["cpu_vs_cpu"]:
-                self.run_turn()
-
-    def run_turn(self):
-        if self.modes["cpu_vs_cpu"]:
-            node = None
-        if self.modes["man_vs_cpu"]:
-            node = self.node
-
-        # BLUE player's turn
-        if not self.check_move(node, self.turn[self.turn_state]):
-            return
-        # RED player's turn (AI)
-        else:
-            if not self.check_move(None, self.turn[self.turn_state]):
-                return
-
-    def check_move(self, node, player):
-        # Forbid playing on already busy node
-        try:
-            self.winner = self.logic.get_action(node, player)
-        except AssertionError:
-            return False
-
-        # Next turn
-        self.turn_state = not self.turn_state
-
-        # If there is a winner, break the loop
-        if self.get_winner():
-            return False
-
-        return True
-
     def get_winner(self):
         if self.winner:
             print("----------------- Player {} wins! -------------------------------------".format(self.winner))
             return True
 
     def play(self):
-        self.ui.draw_board()
+        if self.showGui: self.ui.draw_board()
 
         if self.turn_state:
             node = self.bluePlayer.getMove(self.board)
@@ -114,13 +71,14 @@ class Game:
         if node != None:
             #print(node)
             self.board.play(cords=node, player=self.turn[self.turn_state])
-            self.ui.color[node[0] * self.board.boardSize + node[1]] = self.ui.blue if self.turn_state else self.ui.red
+            if self.showGui: self.ui.color[node[0] * self.board.boardSize + node[1]] = self.ui.blue if self.turn_state else self.ui.red
             self.is_game_over()
             self.get_winner()
             self.turn_state = not self.turn_state
 
-        pygame.display.update()
-        self.ui.clock.tick(30)
+        if self.showGui:
+            pygame.display.update()
+            self.ui.clock.tick(30)
 
 
     def is_game_over(self):

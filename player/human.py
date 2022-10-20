@@ -16,10 +16,9 @@ from player.hexplayer import HexPlayer, Board
 #-------- Classes ---------------------------------------------------------------
 
 class HumanPlayer(HexPlayer):
-    
-    def __init__(self):
-        self.type = "human"
-        self.gui = None
+    type = "human"
+    gui = None
+
 
     def getMove(self, board: Board) -> tuple[int, int]:
         node = self.gui.get_node_hover()

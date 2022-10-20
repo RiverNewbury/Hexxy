@@ -20,12 +20,14 @@ def main(args):
 
 if __name__ == "__main__":
     PLAYER_DICTIONARY = {
-        1: HumanPlayer()
+        1: HumanPlayer(),
+        2: RandomPlayer(),
     }
 
     BOARD_SIZE = 7
     ITERMAX = 500
     GAME_COUNT, N_GAMES = 0, 200
+    GUI = False
 
     print("What is [bold blue]Player 1[/bold blue]?\n 1. Human\n 2. Random Player", end="\t")
     P1 = PLAYER_DICTIONARY.get(int(input())) #TODO : Add erroring or something
@@ -44,10 +46,13 @@ if __name__ == "__main__":
     #print("How many iterations should MCTS play ([bold red]itermax[/bold red])?", end="\t")
     #ITERMAX = int(input())
 
+    print("Do you want a [bold blue]GUI[/bold blue]?", end="\t")
+    GUI = True if input() == "yes" else False
+
     print()
     log.warning("No Pie Rule not implemented yet!")
     print() 
 
 
-    args = BOARD_SIZE, ITERMAX, P1, P2, GAME_COUNT, N_GAMES
+    args = BOARD_SIZE, ITERMAX, P1, P2, GAME_COUNT, N_GAMES, GUI
     main(args)
