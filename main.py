@@ -7,42 +7,46 @@ FORMAT = "%(message)s"
 logging.basicConfig(level="NOTSET", format=FORMAT, datefmt="[%X]", handlers=[RichHandler()])
 
 from classes.tournament import Tournament
+from classes.human import HumanPlayer
 
 
 def main(args):
     arena = Tournament(args)
-
-    if MODE == "cpu_vs_cpu":
+    if GAME_COUNT != 1:
         arena.championship()
-    if MODE == "man_vs_cpu":
+    if GAME_COUNT == 1:
         arena.single_game(blue_starts=True)
 
-
 if __name__ == "__main__":
+    PLAYER_DICTIONARY = {
+        1: HumanPlayer()
+    }
+
     BOARD_SIZE = 7
     ITERMAX = 500
-    MODES = {1:"man_vs_man", 2:"man_vs_cpu",3:"cpu_vs_cpu"}
     GAME_COUNT, N_GAMES = 0, 200
 
-    print("What Mode do you want to play?\n 1. Man vs Man\n 2. Man vs CPU\n 3. CPU vs CPU\t", end="\t")
-    MODE = MODES.get(int(input())) #TODO : Add erroring or something
+    print("What is [bold blue]Player 1[/bold blue]?\n 1. Human\n 2. Random Player", end="\t")
+    P1 = PLAYER_DICTIONARY.get(int(input())) #TODO : Add erroring or something
 
-    if MODE == "man_vs_man":
-        raise Exception("Man vs man not implemented") 
+    print("What is [bold blue]Player 2[/bold blue]?\n 1. Human\n 2. Random Player", end="\t")
+    P2 = PLAYER_DICTIONARY.get(int(input())) #TODO : Add erroring or something
+
     
-    elif MODE == "man_vs_cpu":
-        log = logging.getLogger("rich")
+    log = logging.getLogger("rich")
 
-        print("What [bold blue]board size[/bold blue] do you want to play on?", end="\t")
-        BOARD_SIZE = int(input())
-        #print("How many iterations should MCTS play ([bold red]itermax[/bold red])?", end="\t")
-        #ITERMAX = int(input())
+    print("What [bold blue]board size[/bold blue] do you want to play on?", end="\t")
+    BOARD_SIZE = int(input())
 
-        print()
-        log.info("You will be playing as the BLUE player!")
-        log.warning("No Pie Rule not implemented yet!")
-        print() 
+    print("How [bold blue]many games[/bold blue] do you want to play?", end="\t")
+    N_GAMES = int(input())
+    #print("How many iterations should MCTS play ([bold red]itermax[/bold red])?", end="\t")
+    #ITERMAX = int(input())
+
+    print()
+    log.warning("No Pie Rule not implemented yet!")
+    print() 
 
 
-    args = BOARD_SIZE, ITERMAX, MODE, GAME_COUNT, N_GAMES
+    args = BOARD_SIZE, ITERMAX, P1, P2, GAME_COUNT, N_GAMES
     main(args)
